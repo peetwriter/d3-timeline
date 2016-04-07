@@ -1,5 +1,6 @@
 import React from 'react';
 import d3 from "d3";
+require('../main.css');
 
 var getDate = (d) =>  {
     return new Date(d);
@@ -21,14 +22,26 @@ class TimeLineContainer extends React.Component{
             .attr("width",500)
             .attr("height",250);
 
+        var  i = 0;
+        var path = d3.svg.line()
+            .x(() => {
+                i = i+ 10;
+                return i;
+            })
+            .y(20);
+
         function render (data) {
             var circles = svg.selectAll("circle").data(data);
+            var line = svg.selectAll("path").data(data);
 
             circles.enter().append("circle").attr("r", 2);
-
             circles
                 .attr("cx", (d) => {return scale(getDate(d))} )
                 .attr("cy", 20);
+
+            line.enter().append("path")
+                .attr("class", "line")
+                .attr("d", path);
 
             circles.exit().remove();
        }
