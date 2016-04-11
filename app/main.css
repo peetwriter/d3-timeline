@@ -1,6 +1,6 @@
 .line {
     fill: none;
-    stroke: grey;
+    stroke: #111111;
     stroke-width: 1;
     shape-rendering: crispEdges;
 }

@@ -15,8 +15,8 @@ class TimeLineContainer extends React.Component{
         var dateRange = d3.extent(this.props.dates, (d) => {return getDate(d)});
 
         var scale = d3.time.scale()
-            .domain(dateRange)
-            .range([0, 500]);
+            .range([0, 500])
+            .domain(dateRange);
 
         var svg = d3.select("#container").append("svg")
             .attr("width",500)
@@ -24,22 +24,23 @@ class TimeLineContainer extends React.Component{
 
         var  i = 0;
         var path = d3.svg.line()
-            .x(() => {
-                i = i+ 10;
-                return i;
+            .x((d) => {
+                console.log(d);
+                return scale(d);
             })
             .y(20);
 
         function render (data) {
-            var circles = svg.selectAll("circle").data(data);
-            var line = svg.selectAll("path").data(data);
+            var dates = data.map(getDate);
+            var circles = svg.selectAll("circle").data(dates);
 
-            circles.enter().append("circle").attr("r", 2);
+            circles.enter().append("circle").attr("r", 5);
             circles
-                .attr("cx", (d) => {return scale(getDate(d))} )
+                .attr("cx", scale)
                 .attr("cy", 20);
 
-            line.enter().append("path")
+            svg.append("path")
+                .datum(dates)
                 .attr("class", "line")
                 .attr("d", path);
 
