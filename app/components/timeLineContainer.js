@@ -22,12 +22,13 @@ class TimeLineContainer extends React.Component{
     }
     componentDidMount() {
 
-        var margin = {top: 100, right: 20, bottom: 30, left: 20},
+        var margin = {top: 20, right: 20, bottom: 30, left: 20},
             width = 600 - margin.left - margin.right,
-            height = 700 - margin.top - margin.bottom;
+            height = 400 - margin.top - margin.bottom;
 
         var data = createDataFromDates(this.props.dates);
-        var dateRange = d3.extent(this.props.dates, (d) => {return getDate(d)});
+        var dateRange = d3.extent(data, (d) => {return d.date});
+        var indexRange = d3.extent(this.props.dates, (d) => {return getDate(d)});
 
         var x = d3.time.scale()
             .range([0, width])
@@ -35,7 +36,7 @@ class TimeLineContainer extends React.Component{
 
         var y = d3.scale.linear()
             .range([height, 0])
-            .domain([10, 0]);
+            .domain([0, 5]);
 
         var svg = d3.select("#container")
             .append("svg")
@@ -51,10 +52,7 @@ class TimeLineContainer extends React.Component{
                 return x(d.date);
             })
             .y((d) => {
-                // console.log(d.index);
-                // console.log(y(d.index));
-                i -= 10
-                return i
+                return y(d.index)
             });
 
         function render (data) {
@@ -62,10 +60,11 @@ class TimeLineContainer extends React.Component{
             circles.enter().append("circle").attr("r", 5);
             circles
                 .attr("cx",(d) => {
-                    console.log(d.date);
                     return x(d.date);
                 })
-                .attr("cy", 0);
+                .attr("cy", (d) => {
+                    return y(d.index);
+                });
 
             svg.append("path")
                 .datum(data)
