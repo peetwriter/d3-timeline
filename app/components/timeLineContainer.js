@@ -6,26 +6,41 @@ var getDate = (d) =>  {
     return new Date(d);
 }
 
+var createDataFromDates = (dates) => {
+    var data = dates.map((date, index) => {
+        return {
+            date: getDate(date),
+            index: index
+        }
+    });
+    return data;
+}
+
 class TimeLineContainer extends React.Component{
     constructor(props) {
         super(props);
     }
     componentDidMount() {
 
-        var margin = {top: 30, right: 20, bottom: 30, left: 50},
+        var margin = {top: 100, right: 20, bottom: 30, left: 20},
             width = 600 - margin.left - margin.right,
-            height = 300 - margin.top - margin.bottom;
+            height = 700 - margin.top - margin.bottom;
 
+        var data = createDataFromDates(this.props.dates);
         var dateRange = d3.extent(this.props.dates, (d) => {return getDate(d)});
 
-        var scale = d3.time.scale()
-            .range([0, 500])
+        var x = d3.time.scale()
+            .range([0, width])
             .domain(dateRange);
+
+        var y = d3.scale.linear()
+            .range([height, 0])
+            .domain([10, 0]);
 
         var svg = d3.select("#container")
             .append("svg")
                 .attr("width", width + margin.left + margin.right)
-                .attr("height",height + margin.top + margin.bottom)
+                .attr("height", height + margin.top + margin.bottom)
             .append("g")
                 .attr("transform",
                       "translate(" + margin.left + "," + margin.top + ")");
@@ -33,30 +48,34 @@ class TimeLineContainer extends React.Component{
         var  i = 0;
         var path = d3.svg.line()
             .x((d) => {
-                return scale(d);
+                return x(d.date);
             })
-            .y(() => {
-                i += 10
+            .y((d) => {
+                // console.log(d.index);
+                // console.log(y(d.index));
+                i -= 10
                 return i
             });
 
         function render (data) {
-            var dates = data.map(getDate);
-            var circles = svg.selectAll("circle").data(dates);
+            var circles = svg.selectAll("circle").data(data);
             circles.enter().append("circle").attr("r", 5);
             circles
-                .attr("cx", scale)
-                .attr("cy", 20);
+                .attr("cx",(d) => {
+                    console.log(d.date);
+                    return x(d.date);
+                })
+                .attr("cy", 0);
 
             svg.append("path")
-                .datum(dates)
+                .datum(data)
                 .attr("class", "line")
                 .attr("d", path);
 
             circles.exit().remove();
        }
 
-        render(this.props.dates);
+        render(data);
 
     }
     render () {
