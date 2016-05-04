@@ -4,3 +4,7 @@
     stroke-width: 1;
     shape-rendering: crispEdges;
 }
+
+#container{
+    height: 300px;
+}
