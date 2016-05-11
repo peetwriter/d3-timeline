@@ -16,7 +16,9 @@ var createDataFromDates = (dates) => {
     return data;
 }
 
-function renderLineChart (data, dateRange, indexRange) {
+function renderLineChart (data, dateRange, indexRange, mouseOnHandler, mouseOutHandler) {
+    d3.select("#container svg").remove();
+
     var containerWidth = parseInt(d3.select("#container").style("width"));
     var containerHeight = parseInt(d3.select("#container").style("height"));
 
@@ -49,10 +51,16 @@ function renderLineChart (data, dateRange, indexRange) {
             return y(d.index)
         });
 
+    svg.append("path")
+        .datum(data)
+        .attr("class", "line")
+        .attr("d", path);
+
     var circles = svg.selectAll("circle").data(data);
     circles
         .enter()
         .append("circle")
+        .attr("class", "circle")
         .attr("r", 5)
         .attr("cx",(d) => {
             return x(d.date);
@@ -60,11 +68,17 @@ function renderLineChart (data, dateRange, indexRange) {
         .attr("cy", (d) => {
             return y(d.index);
         });
+    if (mouseOnHandler){
+        circles.on("mouseover", function(data) {
+            mouseOnHandler(...arguments);
+        });
+    }
+    if (mouseOutHandler) {
+        circles.on("mouseout", function(data) {
+            mouseOutHandler(...arguments);
+        });
+    }
 
-    svg.append("path")
-        .datum(data)
-        .attr("class", "line")
-        .attr("d", path);
 
     circles.exit().remove();
 }
@@ -82,7 +96,7 @@ class TimeLineContainer extends React.Component{
 
     componentDidMount() {
         var state = this.state;
-        renderLineChart(state.data, state.dateRange, state.indexRange);
+        renderLineChart(state.data, state.dateRange, state.indexRange, this.props.mouseOnHandler, this.props.mouseOutHandler);
         d3.select(window).on('resize', () => {renderLineChart(state.data, state.dateRange, state.indexRange);})
     }
     render () {
