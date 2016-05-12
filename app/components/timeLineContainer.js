@@ -56,31 +56,26 @@ function renderLineChart (data, dateRange, indexRange, mouseOnHandler, mouseOutH
         .attr("class", "line")
         .attr("d", path);
 
-    var circles = svg.selectAll("circle").data(data);
-    circles
-        .enter()
-        .append("circle")
-        .attr("class", "circle")
-        .attr("r", 5)
-        .attr("cx",(d) => {
-            return x(d.date);
-        })
-        .attr("cy", (d) => {
-            return y(d.index);
-        });
+    var circleText = svg.selectAll("g myCircleText").data(data);
+
+    var elemEnter = circleText.enter()
+	    .append("g")
+	    .attr("transform", function(d){return "translate("+x(d.date)+"," + y(d.index) + ")"})
+
+    var circle = elemEnter.append("circle")
+	    .attr("r", 15)
+	    .attr("class", "circle")
+
     if (mouseOnHandler){
-        circles.on("mouseover", function(data) {
+        circle.on("mouseover", function(data) {
             mouseOnHandler(...arguments);
         });
     }
     if (mouseOutHandler) {
-        circles.on("mouseout", function(data) {
+        circle.on("mouseout", function(data) {
             mouseOutHandler(...arguments);
         });
     }
-
-
-    circles.exit().remove();
 }
 
 class TimeLineContainer extends React.Component{
