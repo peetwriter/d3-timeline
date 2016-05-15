@@ -1,5 +1,5 @@
 {
-  "name": "timeline",
+  "name": "d3-react-simple-timeline",
   "version": "0.1.0",
   "description": "Very simple timeline react component",
   "main": "dist/index.js",
