@@ -2,6 +2,7 @@ import React from 'react';
 import d3 from "d3";
 require('../main.css');
 
+var rectSize = 40;
 var getDate = (d) =>  {
     return new Date(d);
 }
@@ -60,11 +61,25 @@ function renderLineChart (data, dateRange, indexRange, mouseOnHandler, mouseOutH
 
     var elemEnter = circleText.enter()
 	    .append("g")
-	    .attr("transform", function(d){return "translate("+x(d.date)+"," + y(d.index) + ")"})
 
-    var circle = elemEnter.append("circle")
-	    .attr("r", 15)
-	    .attr("class", "circle")
+    svg.append("defs")
+       .append("pattern")
+       .attr("id", "bg")
+       .append("image")
+       .attr("xlink:href", "https://i.stack.imgur.com/iEuMZ.jpg?s=32&g=1");
+
+    var circle = elemEnter.append("rect")
+        .attr("width", rectSize)
+        .attr("height", rectSize)
+        .attr("rx", 6)
+        .attr("ry", 6)
+        .attr("x", (d) => {
+            return x(d.date) - rectSize/2
+        })
+        .attr("y", (d) => {
+            return y(d.index) - rectSize/2
+        })
+        .attr("class", "rect");
 
     if (mouseOnHandler){
         circle.on("mouseover", function(data) {

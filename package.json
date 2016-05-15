@@ -1,13 +1,14 @@
 {
   "name": "timeline",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.1.0",
+  "description": "Very simple timeline react component",
+  "main": "dist/index.js",
   "scripts": {
-    "production": "webpack -p",
+    "build": "webpack -p",
+    "prepublish": "npm run build",
     "start": "webpack-dev-server --progress --colors --port 8090"
   },
-  "author": "",
+  "author": "Petro Tarasenko, pereter92@gmail.com",
   "license": "ISC",
   "dependencies": {
     "css-loader": "^0.23.1",

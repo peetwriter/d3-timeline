@@ -9,6 +9,10 @@
     fill: red;
 }
 
+.rect{
+    fill: red;
+}
+
 #container{
     height: 300px;
 }
