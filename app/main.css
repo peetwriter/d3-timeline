@@ -13,6 +13,6 @@
     fill: red;
 }
 
-#container{
-    height: 300px;
+.container{
+    height: 100%;
 }
