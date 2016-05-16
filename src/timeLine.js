@@ -1,6 +1,6 @@
 import React from 'react';
 import d3 from "d3";
-require('../main.css');
+require('./styles/main.css');
 
 const rectSize = 40,
     rectRd = 6,
@@ -23,7 +23,6 @@ var createDataFromDates = (dates) => {
 function renderLineChart (id, data, dateRange, indexRange, mouseOnHandler, mouseOutHandler) {
     var SvgToSelect = `${id} svg`;
     d3.select(SvgToSelect).remove();
-
     var containerWidth = parseInt(d3.select(id).style("width"));
     var containerHeight = parseInt(d3.select(id).style("height"));
 
@@ -104,7 +103,7 @@ class TimeLineContainer extends React.Component{
     componentDidMount() {
         var state = this.state;
         renderLineChart(`#${this.props.id}`, state.data, state.dateRange, state.indexRange, this.props.mouseOnHandler, this.props.mouseOutHandler);
-        d3.select(window).on('resize', () => {renderLineChart(state.data, state.dateRange, state.indexRange);})
+        d3.select(window).on('resize', () => {renderLineChart(`#${this.props.id}`, state.data, state.dateRange, state.indexRange);})
     }
     render () {
         return (
