@@ -2,7 +2,7 @@
   "name": "d3-react-simple-timeline",
   "version": "0.1.2",
   "description": "Very simple timeline react component",
-  "main": "dist/index.js",
+  "main": "src/timeLine.js",
   "scripts": {
     "build": "webpack -p",
     "prepublish": "npm run build",
