@@ -89,7 +89,7 @@ function renderLineChart (id, data, dateRange, indexRange, mouseOnHandler, mouse
     }
 }
 
-class TimeLineContainer extends React.Component{
+class TimeLine extends React.Component{
     constructor(props, context) {
         super(props, context);
         var data = createDataFromDates(props.dates);
@@ -113,4 +113,4 @@ class TimeLineContainer extends React.Component{
     }
 };
 
-export default TimeLineContainer;
+export default TimeLine;

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from "react-dom";
 
-import TimeLineContainer from "../dist/timeLine";
+import TimeLine from "../dist/timeLine";
 
 var containerStyle = {
     height: "200px"
@@ -9,7 +9,7 @@ var containerStyle = {
 
 ReactDOM.render(
     <div style={containerStyle}>
-        <TimeLineContainer dates={["1/06/2015",
+        <TimeLine dates={["1/06/2015",
             "1/07/2015",
             "1/09/2015",
             "1/15/2015",
