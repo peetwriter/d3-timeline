@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from "react-dom";
 
-import TimeLineContainer from "../src/timeLine";
+import TimeLineContainer from "../dist/timeLine";
 
 var containerStyle = {
     height: "200px"

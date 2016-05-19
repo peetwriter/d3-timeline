@@ -11,7 +11,7 @@ module.exports = {
         './example/index.js'
     ],
     output: {
-        path: __dirname + '/dist',
+        path: __dirname + 'example/dist',
         filename: "index.js"
     },
     module: {
